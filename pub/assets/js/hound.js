@@ -284,12 +284,18 @@ var Model = {
   UrlToRepo: function(repo, path, line) {
     var info = this.repos[repo],
         url = info.url.replace(/\.git$/, ''),
-        anc = line ? '#L' + line : '';
+        anc = line ? '#' + line : '';
+
+    var baseUrl = url.split('scm/')[0];
+    var repoPath = url.split('scm/')[1];
+    var project = repoPath.split('/')[0];
+    var repo = repoPath.split('/')[1];
+    url = baseUrl + 'projects/' + project + '/repos/' + repo;
 
     // Hacky solution to fix _some_ of the 404's when using SSH style URLs
     url = url.replace("git@github.com:", 'https://www.github.com/');
 
-    return url + '/blob/master/' + path + anc;
+    return url + '/browse/' + path + anc;
   }
 
 };
